@@ -1,0 +1,110 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.16.1
+  name: free5gcs.free5gc.free5gc.org
+spec:
+  group: free5gc.free5gc.org
+  names:
+    kind: Free5GC
+    listKind: Free5GCList
+    plural: free5gcs
+    singular: free5gc
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Free5GC est le schéma principal
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Free5GCSpec définit la configuration de Free5GC
+            properties:
+              dnnList:
+                items:
+                  description: DNN définit un Data Network Name
+                  properties:
+                    cidr:
+                      type: string
+                    dnn:
+                      type: string
+                    natifname:
+                      type: string
+                  required:
+                  - cidr
+                  - dnn
+                  - natifname
+                  type: object
+                type: array
+              gtpu:
+                description: GTPU définit la configuration des interfaces GTP-U
+                properties:
+                  forwarder:
+                    type: string
+                  ifList:
+                    items:
+                      description: IfItem représente une interface réseau
+                      properties:
+                        addr:
+                          type: string
+                        type:
+                          type: string
+                      required:
+                      - addr
+                      - type
+                      type: object
+                    type: array
+                required:
+                - forwarder
+                - ifList
+                type: object
+              pfcp:
+                description: PFCP définit les paramètres du protocole PFCP
+                properties:
+                  addr:
+                    type: string
+                  maxRetrans:
+                    type: integer
+                  nodeID:
+                    type: string
+                  retransTimeout:
+                    type: string
+                required:
+                - addr
+                - maxRetrans
+                - nodeID
+                - retransTimeout
+                type: object
+              version:
+                type: string
+            type: object
+          status:
+            description: Free5GCStatus contient l'état de Free5GC
+            properties:
+              ready:
+                type: boolean
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

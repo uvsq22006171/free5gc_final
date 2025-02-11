@@ -1,0 +1,33 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: manager-role
+rules:
+- apiGroups:
+  - core.free5gc
+  - free5gc.free5gc.org
+  resources:
+  - free5gcs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - free5gc.free5gc.org
+  resources:
+  - free5gcs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - free5gc.free5gc.org
+  resources:
+  - free5gcs/status
+  verbs:
+  - get
+  - patch
+  - update
